@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  body {
+    background-color: #fce4ec; /* Baby Pink */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: sans-serif;
+  }
+  .container {
+    background-color: #ffccbc; /* Orangish Box */
+    width: 300px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    word-wrap: break-word; /* Text Wrap */
+    text-align: center;
+  }
+  h2 { margin-top: 0; color: #d84315; }
+  p { font-style: italic; line-height: 1.5; }
+  .author { display: block; margin-top: 15px; font-weight: bold; font-size: 0.9em; }
+
+  .controls {
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+  }
+  button {
+    border: none;
+    padding: 10px 15px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2em;
+    transition: transform 0.2s;
+  }
+  button:hover { transform: scale(1.1); }
+  .cross-btn { background-color: #ef5350; color: white; }
+  .like-btn { background-color: #66bb6a; color: white; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h2>{{latest_stanza_list.0.title}}</h2>
+  <p>
+    {{latest_stanza_list.0.STANZA}}
+  </p>
+  <span class="author">— {{latest_stanza_list.0.author}}</span>
+<div class="controls">
+    <button class="cross-btn">✖</button>
+    <button class="like-btn">❤</button>
+</div>
+</div>
+
+
+</body>
+</html>
