@@ -50,8 +50,8 @@
   {% include "stanza.html" %}
   <form action="{% url 'main:index' %}" method="get">
     <div class="controls">
-      <button class="cross-btn" type="submit" name="action" value="dislike">✖</button>
-      <button class="like-btn" type="submit" name="action" value="like">❤</button>
+      <button class="cross-btn" type="submit" name="action" value="skip">✖</button>
+      <button class="like-btn" type="submit" name="action" value="like+{{ stanza.id }}">❤</button>
     </div>
   </form>
 </body>

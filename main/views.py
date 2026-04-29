@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render
-from django.db.models import Q
+from django.db.models import F,Q
 from .models import poem
 import random
 
@@ -9,10 +9,17 @@ def index(request):
     action = request.GET.get('action')
     # Handle button actions
     #nothing for now but should log into db later on
-    if action == 'like':
+    print(action)
+
+    if action is None:
         pass
-    elif action == 'dislike':
+    elif 'like+'in action:
+        stanza_id = action.split('+')[1]
+        update = poem.objects.filter(id=stanza_id).update(likes=F('likes') + 1)
+    
+    elif action == 'skip':
         pass
+
     count = poem.objects.count()
     if count == 0:
         random_stanza = None
