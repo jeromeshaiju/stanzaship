@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  .container {
+    background-color: #ffccbc; /* Orangish Box */
+    width: 300px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    word-wrap: break-word; /* Text Wrap */
+    text-align: center;
+  }
+  h2 { margin-top: 0; color: #d84315; }
+  p { font-style: italic; line-height: 1.5; }
+  .author { display: block; margin-top: 15px; font-weight: bold; font-size: 0.9em; }
+
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h2>{{stanza.title}}</h2>
+  <p>
+    {{stanza.STANZA}}
+  </p>
+  <span class="author">— {{stanza.author}}</span>
+</div>
+</body>
+</html>

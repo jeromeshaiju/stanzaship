@@ -47,18 +47,12 @@
 </head>
 <body>
 
-<div class="container">
-  <h2>{{latest_stanza_list.0.title}}</h2>
-  <p>
-    {{latest_stanza_list.0.STANZA}}
-  </p>
-  <span class="author">— {{latest_stanza_list.0.author}}</span>
-<div class="controls">
-    <button class="cross-btn">✖</button>
-    <button class="like-btn">❤</button>
-</div>
-</div>
-
-
+  {% include "stanza.html" %}
+  <form action="{% url 'main:index' %}" method="get">
+    <div class="controls">
+      <button class="cross-btn" type="submit" name="action" value="dislike">✖</button>
+      <button class="like-btn" type="submit" name="action" value="like">❤</button>
+    </div>
+  </form>
 </body>
 </html>
