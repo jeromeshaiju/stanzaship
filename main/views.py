@@ -27,4 +27,4 @@ def index(request):
         random_id = random.randint(1, count)
         random_stanza = poem.objects.filter(pk__gte=random_id).first()
     context = {"stanza": random_stanza}
-    return render(request, "index.html", context)
+    return render(request, "stanzareels.html", context)
