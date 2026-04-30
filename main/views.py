@@ -1,5 +1,6 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.auth import logout as auth_logout
 from django.db.models import F,Q
 from .models import poem
 import random
@@ -28,3 +29,20 @@ def index(request):
         random_stanza = poem.objects.filter(pk__gte=random_id).first()
     context = {"stanza": random_stanza}
     return render(request, "stanzareels.html", context)
+
+
+
+# HAVE USED QUILL FOR THE TEXT EDDITOR IN THE PAST, CAN USE IT AGAIN
+def write(request):
+    return render(request, "write.html")
+
+def profile(request):
+    return render(request, "profile.html")
+
+
+def signup(request):
+    return render(request, "SIGNUP.html")
+
+
+def login(request):
+    return render(request, "LOGIN.html")
