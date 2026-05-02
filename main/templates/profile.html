@@ -20,7 +20,25 @@
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
   }
-
+  .stanzacard {
+    background-color: #f8bbd0; /* Light Pink */
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.58);
+  }
+  .card-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: justify;
+  }
+  .card-body {
+    font-size: 12px;
+    font-family: 'Courier New', Courier, monospace;
+    color: #525252bf;
+    margin-bottom: 10px;
+  }
 </style>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -31,6 +49,31 @@
 
   
 <div class="container">
+  {% if user.is_authenticated %}
+    <h1>Welcome, {{ user.username }}!</h1>
+    <p>Email: {{ user.email }}</p>  
+    <h2>Poems Created:</h2>
+    <ul>
+      {% for poem in poems %}
+      <a href="/poem_detail/{{ poem.id }}/" class="card-link" style="text-decoration: none; color: inherit;">
+          <div class="stanzacard">
+            <div class="card-title">
+            {{ poem.title }}
+            </div>
+            <div class="card-body">
+            {{ poem.STANZA|linebreaks }}
+            </div>
+          ❤️{{ poem.likes }}
+          </div>
+      </a>
+      {% empty %}
+        <li>You haven't created any poems yet.</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <h1>Welcome to your profile page!</h1>  
+    <p>Please log in to see your profile information.</p>
+  {% endif %}
     
 </div>
 

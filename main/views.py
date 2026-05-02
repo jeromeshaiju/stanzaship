@@ -37,7 +37,12 @@ def write(request):
     return render(request, "write.html")
 
 def profile(request):
-    return render(request, "profile.html")
+    if request.user.is_authenticated:
+        poems = poem.objects.filter(author=request.user)
+        context = {"poems": poems}
+    else:
+        context = {"poems": []}
+    return render(request, "profile.html", context)
 
 
 def signup(request):
@@ -46,3 +51,8 @@ def signup(request):
 
 def login(request):
     return render(request, "LOGIN.html")
+
+def poem_detail(request, poem_id):
+    poem_instance = poem.objects.get(id=poem_id)
+    context = {"poem": poem_instance}
+    return render(request, "poem_detail.html", context)
