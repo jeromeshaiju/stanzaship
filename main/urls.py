@@ -13,4 +13,5 @@ urlpatterns = [
     path("signup", views.signup, name="signup"),
     path("login", views.login, name="login"),
     path("poem_detail/<int:poem_id>/", views.poem_detail, name="poem_detail"),
+    path("submit_poem/", views.submit_poem, name="submit_poem"),
 ]

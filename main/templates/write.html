@@ -35,7 +35,7 @@
   
 <div class="container">
 <h3>Title</h3>
-
+{% if user.is_authenticated %}
   <div class="input-group mb-3">
   <input type="text" class="form-control" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
   </div>
@@ -45,13 +45,66 @@
   <p>Some initial <strong>bold</strong> text</p>
   <p><br /></p>
 </div>
+<p><strong>Character Count:</strong> <span id="charCount">0</span>/450</p>
+<button class="btn btn-primary mt-3" id="getTextBtn" action="submit_poem">Get Text</button>
 </div>
+{% else %}
+<div class="alert alert-info" role="alert">
+  Please <a href="{% url 'main:login' %}" class="alert-link">log in</a> to write a poem!
+</div>
+{% endif %}
+
+
+
+
 
 <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
 <script>
   const quill = new Quill('#editor', {
     theme: 'snow'
   });
+
+
+  // if char count greater thjan 450, prevent further input
+  quill.on('text-change', function(delta, oldDelta, source) {
+    const text = quill.getText();
+    const charCount = text.length - 1; 
+    if (charCount > 450) {
+      quill.deleteText(450, charCount);
+    }
+    else{
+    document.getElementById('charCount').textContent = charCount;
+    }
+  });
+  // Get text when button is clicked and send a POST request to the server if both title and content are not empty
+  document.getElementById('getTextBtn').addEventListener('click', function() {
+    const plainText = quill.getText();
+    const title = document.querySelector('.input-group input').value.trim();
+    console.log('Title:', title);
+    console.log('Plain Text:', plainText);
+    if (title && plainText.trim()) {
+      fetch("{% url 'main:submit_poem' %}", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': '{{ csrf_token }}'
+        },
+        body: JSON.stringify({ title: title, content: plainText })
+      })
+      .catch(error => {
+        console.error('Error submitting poem:', error);
+        alert('Failed to submit poem. Please try again.');
+      });
+    } else {
+      alert('Please enter both a title and some content for your poem.');
+    }
+
+    
+  });
+
+  // Initialize character count on page load
+  const initialText = quill.getText();
+  document.getElementById('charCount').textContent = initialText.length - 1;
 </script>
  
 </html>

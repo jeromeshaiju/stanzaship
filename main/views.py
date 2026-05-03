@@ -1,7 +1,10 @@
-from django.http import HttpResponse
+import json
+
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout as auth_logout
 from django.db.models import F,Q
+from pytz import timezone
 from .models import poem
 import random
 
@@ -56,3 +59,17 @@ def poem_detail(request, poem_id):
     poem_instance = poem.objects.get(id=poem_id)
     context = {"poem": poem_instance}
     return render(request, "poem_detail.html", context)
+
+def submit_poem(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        title = data.get("title")
+        content = data.get("content")
+
+        if title and content:
+            poem.objects.create(title=title, STANZA=content, author=request.user.username)
+            return JsonResponse({"status": "success"})
+        else:
+            return JsonResponse({"status": "error", "message": "Title and content are required."})
+    else:
+        return JsonResponse({"status": "error", "message": "Invalid request method."})
