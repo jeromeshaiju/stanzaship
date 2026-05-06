@@ -11,7 +11,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    min-height: 120vh;
     margin: 0;
     font-family: sans-serif;
   }
@@ -52,7 +52,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 </head>
 <body>
-  {% include "header.html" %}
   {% include "stanza.html" %}
   <form action="{% url 'main:index' %}" method="get">
     <div class="controls">

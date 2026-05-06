@@ -10,8 +10,8 @@ urlpatterns = [
     path("", views.index, name="index"),
     path("write", views.write, name="write"),
     path("profile", views.profile, name="profile"),
-    path("signup", views.signup, name="signup"),
     path("login", views.login, name="login"),
     path("poem_detail/<int:poem_id>/", views.poem_detail, name="poem_detail"),
     path("submit_poem/", views.submit_poem, name="submit_poem"),
+    path("search_results/", views.search_results, name="search_results"),
 ]

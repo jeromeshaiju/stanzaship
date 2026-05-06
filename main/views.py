@@ -48,10 +48,6 @@ def profile(request):
     return render(request, "profile.html", context)
 
 
-def signup(request):
-    return render(request, "SIGNUP.html")
-
-
 def login(request):
     return render(request, "LOGIN.html")
 
@@ -73,3 +69,7 @@ def submit_poem(request):
             return JsonResponse({"status": "error", "message": "Title and content are required."})
     else:
         return JsonResponse({"status": "error", "message": "Invalid request method."})
+
+def search_results(request):
+
+    return render(request, "search_results.html")
