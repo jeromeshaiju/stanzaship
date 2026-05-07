@@ -6,11 +6,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 </head>
 <nav class="navbar fixed-top navbar-dark bg-dark">
-  <a class="navbar-brand" href="#">STANZASHIP</a>
+<div class="d-flex align-items-center justify-content-between w-100 px-3 py-2">
+  <a class="navbar-brand" href="{% url 'main:index' %}">STANZASHIP</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
+      <span class="navbar-toggler-icon"></span>
   </button>
+</div>
 
+<div class="w-100 px-3 pb-2">
 <form id="search-form" method="get" action="{% url 'main:search_results' %}">
   <input type="hidden" name="type" id="search-type" value="general">
   <div class="input-group">
@@ -29,26 +32,24 @@
     </div>
   </div>
 </form>
-
-
 </div>
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
+<div class="collapse navbar-collapse" id="navbarSupportedContent">
+  <ul class="navbar-nav mr-auto">
+    <li class="nav-item active">
+      <a class="nav-link" href="{% url 'main:index' %}">STANZA <span class="sr-only">(current)</span></a>
+    </li>
       <li class="nav-item active">
-        <a class="nav-link" href="{% url 'main:index' %}">STANZA <span class="sr-only">(current)</span></a>
-      </li>
-        <li class="nav-item active">
-        <a class="nav-link" href="{% url 'main:write' %}">WRITE <span class="sr-only">(current)</span></a>
-          </li>
-        <li class="nav-item active">
-        <a class="nav-link" href="{% url 'main:profile' %}">PROFILE <span class="sr-only">(current)</span></a>
-      </li>
+      <a class="nav-link" href="{% url 'main:write' %}">WRITE <span class="sr-only">(current)</span></a>
+        </li>
       <li class="nav-item active">
-        <a class="nav-link" href="{% url 'main:login' %}">LOG IN <span class="sr-only">(current)</span></a>
-      </li>
-      </li>
-    </ul>
-  </div>
+      <a class="nav-link" href="{% url 'main:profile' %}">PROFILE <span class="sr-only">(current)</span></a>
+    </li>
+    <li class="nav-item active">
+      <a class="nav-link" href="{% url 'main:login' %}">LOG IN <span class="sr-only">(current)</span></a>
+    </li>
+    </li>
+  </ul>
+</div>
 </nav>
 </html>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
