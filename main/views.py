@@ -73,15 +73,12 @@ def submit_poem(request):
 def search_results(request):
     query = request.GET.get('q', '')
     search_type = request.GET.get('type', 'general')
-
     print(f"Search query: {query}, Search type: {search_type}")
-    
     if search_type.lower() == 'author':
         poems = poem.objects.filter(author__icontains=query)
     elif search_type.lower() == 'title':
         poems = poem.objects.filter(title__icontains=query)
     else:
-        poems = poem.objects.filter(Q(title__icontains=query) | Q(STANZA__icontains=query))
-
+        poems = poem.objects.filter(Q(title__icontains=query) | Q(STANZA__icontains=query) | Q(author__icontains=query))
     context = {"poems": poems, "query": query, "search_type": search_type}
     return render(request, "search_results.html", context)
