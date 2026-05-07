@@ -53,7 +53,18 @@
     <h3 class="poem-date">Published on {{ poem.pub_date }}</h3>
     {% endif %}
     <p class="poem-likes">Has recieved ❤️{{ poem.likes }} likes</p>
+{%if user.is_authenticated %}
+    {%if user.username == poem.author %}
+        <alert class="alert-danger" role="alert">
+                WARNING: This action is irreversible!
+        </alert>
+        <form action="{% url 'main:index' %}" method="get">      
+            <button class="like-btn" type="submit" name="action" value="delete_poem+{{ poem.id }}">DELETE POEM</button>
+        </form>
+    {% endif %}
+{% endif %}
 </div>
+
 
 
  

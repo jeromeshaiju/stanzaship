@@ -37,7 +37,7 @@
 <h3>Title</h3>
 {% if user.is_authenticated %}
   <div class="input-group mb-3">
-  <input type="text" class="form-control" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+  <input type="text" class="form-control" id="poem-title" placeholder="Enter poem title" aria-label="Example text with button addon" aria-describedby="button-addon1">
   </div>
 <h3>Write a Poem</h3>
 <div id="editor">
@@ -80,7 +80,7 @@
   // Get text when button is clicked and send a POST request to the server if both title and content are not empty
   document.getElementById('getTextBtn').addEventListener('click', function() {
     const plainText = quill.getText();
-    const title = document.querySelector('.input-group input').value.trim();
+    const title = document.getElementById('poem-title').value.trim();
     console.log('Title:', title);
     console.log('Plain Text:', plainText);
     if (title && plainText.trim()) {
@@ -91,6 +91,14 @@
           'X-CSRFToken': '{{ csrf_token }}'
         },
         body: JSON.stringify({ title: title, content: plainText })
+      })
+      .then(response => response.json())
+      .then(data => {
+          if (data.status === 'success') {
+              window.location.href = data.redirect;
+          } else {
+              alert(data.message);
+          }
       })
       .catch(error => {
         console.error('Error submitting poem:', error);

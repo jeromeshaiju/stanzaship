@@ -11,10 +11,7 @@ import random
 
 def index(request):
     action = request.GET.get('action')
-    # Handle button actions
-    #nothing for now but should log into db later on
     print(action)
-
     if action is None:
         pass
     elif 'like+'in action:
@@ -23,6 +20,9 @@ def index(request):
     
     elif action == 'skip':
         pass
+    elif 'delete_poem' in action:
+        stanza_id = action.split('+')[1]
+        poem.objects.filter(id=stanza_id).delete()
 
     count = poem.objects.count()
     if count == 0:
@@ -64,12 +64,24 @@ def submit_poem(request):
 
         if title and content:
             poem.objects.create(title=title, STANZA=content, author=request.user.username)
-            return JsonResponse({"status": "success"})
+            return JsonResponse({"status": "success", "redirect": "/profile"})
         else:
             return JsonResponse({"status": "error", "message": "Title and content are required."})
     else:
         return JsonResponse({"status": "error", "message": "Invalid request method."})
 
 def search_results(request):
+    query = request.GET.get('q', '')
+    search_type = request.GET.get('type', 'general')
 
-    return render(request, "search_results.html")
+    print(f"Search query: {query}, Search type: {search_type}")
+    
+    if search_type.lower() == 'author':
+        poems = poem.objects.filter(author__icontains=query)
+    elif search_type.lower() == 'title':
+        poems = poem.objects.filter(title__icontains=query)
+    else:
+        poems = poem.objects.filter(Q(title__icontains=query) | Q(STANZA__icontains=query))
+
+    context = {"poems": poems, "query": query, "search_type": search_type}
+    return render(request, "search_results.html", context)
