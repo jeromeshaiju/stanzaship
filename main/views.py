@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import logout as auth_logout
 from django.db.models import F,Q
 from pytz import timezone
-from .models import poem
+from .models import poem,Tag
 import random
 
 
@@ -37,7 +37,9 @@ def index(request):
 
 # HAVE USED QUILL FOR THE TEXT EDDITOR IN THE PAST, CAN USE IT AGAIN
 def write(request):
-    return render(request, "write.html")
+    tags = list(Tag.objects.values_list('name', flat=True))
+    context = {"tags": tags}
+    return render(request, "write.html",context)
 
 def profile(request):
     if request.user.is_authenticated:
@@ -61,9 +63,15 @@ def submit_poem(request):
         data = json.loads(request.body)
         title = data.get("title")
         content = data.get("content")
+        print(f"Received poem submission: Title='{title}', Content='{content}', Tags='{data.get('tags', [])}'")
 
         if title and content:
-            poem.objects.create(title=title, STANZA=content, author=request.user.username)
+            tags = data.get('tags', [])
+            poem_created = poem.objects.create(title=title, STANZA=content, author=request.user.username)
+            for tag_name in tags:
+                tag_obj, created = Tag.objects.get_or_create(name=tag_name)
+                poem_created.tags.add(tag_obj)
+            
             return JsonResponse({"status": "success", "redirect": "/profile"})
         else:
             return JsonResponse({"status": "error", "message": "Title and content are required."})
@@ -79,6 +87,6 @@ def search_results(request):
     elif search_type.lower() == 'title':
         poems = poem.objects.filter(title__icontains=query)
     else:
-        poems = poem.objects.filter(Q(title__icontains=query) | Q(STANZA__icontains=query) | Q(author__icontains=query))
+        poems = poem.objects.filter(Q(title__icontains=query) | Q(STANZA__icontains=query) | Q(author__icontains=query) | Q(tags__name__icontains=query))
     context = {"poems": poems, "query": query, "search_type": search_type}
     return render(request, "search_results.html", context)
