@@ -64,7 +64,9 @@
             <div class="card-body">
             {{ poem.STANZA|linebreaks }}
             </div>
-          ❤️{{ poem.likes }}
+          <p>- {{ poem.author }}</p>
+          <p>❤️{{ poem.likes }}</p>
+           </div>
           </div>
       </a>
       {% empty %}

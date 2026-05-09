@@ -30,20 +30,54 @@
   {% include "header.html" %}
 
 
-  
+
 <div class="container">
-    {% load socialaccount %}
+{%if user.is_authenticated %}
+<div class="card border-dark mb-3" >
+  <div class="card-header">DETAILS</div>
+  <div class="card-body">
+    <p>USERNAME: {{ user.username }}</p>
+    <p>EMAIL: {{ user.email }}</p>
+  </div>
+</div>
+  <form>
+  <button type="button" class="btn btn-outline-danger mb-3 justify-content-center" style="width: 100%;" id="logout-button">
+    Logout
+  </button>
+  </form>
+{% else %}
+  <p>You are not logged in.</p>
+{% load socialaccount %}
 <h2>GOOGLE LOGIN</h2>
 <a href="{% provider_login_url 'google' next='/' %}">Sign in with Google</a>
 
-{%if user.is_authenticated %}
-  <p>Welcome, {{ user.username }}!</p>
-  <p>Email: {{ user.email }}</p>
-<a href="{% url 'account_logout' %}">Logout</a>
-{% else %}
-  <p>You are not logged in.</p>
 {% endif %}
-</div>
 
+
+
+</div>
+</body>
+<script>
+  // Add event listener to search option buttons
+  document.getElementById('logout-button').addEventListener('click', function(event) {
+    event.preventDefault();
+    // Create a form to submit the logout request
+    var form = document.createElement('form');
+    form.method = 'POST';
+    form.action = '{% url "account_logout" %}';
+    
+    // Add CSRF token to the form
+    var csrfToken = '{{ csrf_token }}';
+    var csrfInput = document.createElement('input');
+    csrfInput.type = 'hidden';
+    csrfInput.name = 'csrfmiddlewaretoken';
+    csrfInput.value = csrfToken;
+    form.appendChild(csrfInput);
+    
+    // Append the form to the body and submit it
+    document.body.appendChild(form);
+    form.submit();
+  });
+</script>
 </html>
 

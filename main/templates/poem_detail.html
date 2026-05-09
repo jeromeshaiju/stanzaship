@@ -59,12 +59,15 @@
     {% endfor %}
 {%if user.is_authenticated %}
     {%if user.username == poem.author %}
-    <div class= "mt-4">
-        <alert class="alert-danger" role="alert">
-                WARNING: This action is irreversible!
-        </alert>
+    <div class= "mt-5">
+
+        <div class="alert alert-warning d-flex align-items-center" role="alert">
+        <div>
+            WARNING: This action is irreversible!
+        </div>
+    </div>
         <form action="{% url 'main:index' %}" method="get">      
-            <button class="like-btn" type="submit" name="action" value="delete_poem+{{ poem.id }}">DELETE POEM</button>
+            <button class="btn btn-outline-danger" type="submit" name="action" value="delete_poem+{{ poem.id }}">DELETE POEM</button>
         </form>
     </div>
     {% endif %}

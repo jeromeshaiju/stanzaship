@@ -48,12 +48,14 @@
   {% include "header.html" %}
 
 <div class="container">
-  
-<h6>Search type: {{ search_type }}</h6>
-<h6>Query: {{ query }}</h6>
+<div class="alert alert-info" role="alert">
+<h4 class="alert-heading">Search Results</h4>
+<p>Here are the results for your search query. Click on a stanza to view more details.</p>
+<p><strong>Search type:</strong> {{ search_type }}
+<strong>Query:</strong> {{ query }}</p>
+</div>
 
   {% if user.is_authenticated %}
-    <ul>
       {% for poem in poems %}
       <a href="/poem_detail/{{ poem.id }}/" class="card-link" style="text-decoration: none; color: inherit;">
           <div class="stanzacard">
@@ -63,15 +65,18 @@
             <div class="card-body">
             {{ poem.STANZA|linebreaks }}
             </div>
-          ❤️{{ poem.likes }}
+          <p>- {{ poem.author }}</p>
+          <p>❤️{{ poem.likes }}</p>
           </div>
       </a>
       {% empty %}
-        <li>No results found.😞</li>
+      <div class="alert alert-warning d-flex align-items-center" role="alert"style="width=100%;">
+        <p>No results found.😞</p>
+      </div>
       {% endfor %}
-    </ul>
   {% else %}
-    <h1>To see the search results please log in to your profile.</h1>  
+    <h1>To see the search results please log in to your profile.</h1> 
+    <a href="{% url 'main:login' %}" class="btn btn-primary mt-3">Log In</a> 
   {% endif %}
     
 </div>

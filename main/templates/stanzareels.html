@@ -55,8 +55,20 @@
   {% include "stanza.html" %}
   <form action="{% url 'main:index' %}" method="get">
     <div class="controls">
-      <button class="cross-btn" type="submit" name="action" value="skip">✖</button>
-      <button class="like-btn" type="submit" name="action" value="like+{{ stanza.id }}">❤</button>
+      {%if user.is_authenticated%}
+       <input type="hidden" name="stanza_id" value="{{ stanza.id }}">
+       <button class="btn btn-danger" type="submit" name="action" value="skip">✖</button>
+       <button class="btn btn-success" type="submit" name="action" value="like+{{ stanza.id }}">❤</button>
+
+      {% else %}
+      <div class="alert alert-warning  align-items-center" role="alert">
+       <div> 
+        <p>Login to like stanzas and see your liked stanzas in your profile!</p>
+      </div> 
+        <div role="separator" class="dropdown-divider"></div>
+        <a href="{% url 'main:login' %}" >Login</a>
+      </div>
+      {% endif %}
     </div>
   </form>
 
