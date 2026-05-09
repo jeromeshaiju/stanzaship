@@ -23,10 +23,20 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-+48!5pz!$(oypl)4j4#$!p@00d0z%b705q*1ny686wskpf7y7n'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 #I have to change this
+STATIC_URL = '/static/'
+# The absolute path to the directory where collectstatic will collect static files for deployment
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-ALLOWED_HOSTS = []
+import os
+
+# Extra places for collectstatic to find static files
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
+
+ALLOWED_HOSTS = ['stanzaship.onrender.com', 'localhost']
 # 'stanzaship.onrender.com', 'localhost' i have to add this in production
 
 # Application definition
