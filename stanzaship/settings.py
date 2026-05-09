@@ -41,7 +41,7 @@ ALLOWED_HOSTS = ['stanzaship.onrender.com', 'localhost']
 
 # Application definition
 
-SITE_ID = 2
+SITE_ID = 1
 
 INSTALLED_APPS = [
     'main.apps.MainConfig',
