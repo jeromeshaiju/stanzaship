@@ -23,10 +23,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-+48!5pz!$(oypl)4j4#$!p@00d0z%b705q*1ny686wskpf7y7n'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
+#I have to change this
 
-ALLOWED_HOSTS = ['stanzaship.onrender.com', 'localhost']
-
+ALLOWED_HOSTS = []
+# 'stanzaship.onrender.com', 'localhost' i have to add this in production
 
 # Application definition
 
