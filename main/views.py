@@ -86,6 +86,6 @@ def search_results(request):
     elif search_type.lower() == 'title':
         poems = poem.objects.filter(title__icontains=query).order_by('-likes')[:20]
     else:
-        poems = poem.objects.filter(Q(title__icontains=query) | Q(STANZA__icontains=query) | Q(author__icontains=query) | Q(tags__name__icontains=query)).order_by('-likes')[:20]
+        poems = poem.objects.filter(Q(title__icontains=query) | Q(STANZA__icontains=query) | Q(author__icontains=query) | Q(tags__name__icontains=query)).order_by('-likes')[:20].distinct()
     context = {"poems": poems, "query": query, "search_type": search_type}
     return render(request, "search_results.html", context)
