@@ -14,4 +14,6 @@ urlpatterns = [
     path("poem_detail/<int:poem_id>/", views.poem_detail, name="poem_detail"),
     path("submit_poem/", views.submit_poem, name="submit_poem"),
     path("search_results/", views.search_results, name="search_results"),
+    path("massdump/", views.massdump, name="massdump"),
+    path("poemdump/", views.poemdump, name="poemdump"),
 ]

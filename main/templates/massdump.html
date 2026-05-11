@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+<link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css">
+
+<style>
+  
+  body {
+    background-color: #fce4ec; /* Baby Pink */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+    padding-top: 100px; 
+  }
+ .container {
+    background-color: #ffffff; 
+    width: 100%;
+    padding: 10%;
+    border-radius: 8px;
+    font-family: "Times New Roman", serif;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  }
+
+</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body>
+  {% include "header.html" %}
+
+
+  
+<div class="container">
+{% if user.is_authenticated %}
+{%if user.is_superuser%}
+<h3>MASS DUMP</h3>
+  <div class="input-group mb-3">
+  <input type="text" class="form-control" id="poemdump" placeholder="type {title:{stanza:'',tags:[],author:''}, title:{stanza:'',tags:[],author:''}}....} add /n to seperate" aria-label="Example text with button addon" aria-describedby="button-addon1">
+  </div>
+  <button class="btn btn-primary mt-3" id="getTextBtn" action="submit_poem">UPLOAD</button>
+
+{%else%}
+<h1>
+THIS PAGE CANNOT BE ACCESSED BY NON-ADMINS
+</h1>
+{% endif %}
+{% else %}
+<h1>
+PLEASE LOG IN TO ACCESS THIS PAGE
+</h1>
+{% endif %}
+</div>
+</body>
+
+<script>
+document.getElementById('getTextBtn').addEventListener('click', function() {
+    const rawInput = document.getElementById('poemdump').value.trim();
+    
+    if (rawInput !== '') {
+        try {
+            // Convert the string input into a real JSON object
+            const parsedData = JSON.parse(rawInput);
+
+            fetch("{% url 'main:massdump' %}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                // Send the actual object
+                body: JSON.stringify({ poemdump: parsedData })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    window.location.href = data.redirect;
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Submission failed.');
+            });
+        } catch (e) {
+            alert('Invalid JSON format. Please check your braces and quotes.');
+        }
+    } else {
+        alert('Please enter content.');
+    }
+});
+</script>
+
+
+</html>
