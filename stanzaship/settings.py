@@ -28,7 +28,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY_django')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 #I have to change this
-STATIC_URL = '/static/'
+STATIC_URL = 'static/'
 # The absolute path to the directory where collectstatic will collect static files for deployment
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
@@ -109,12 +109,18 @@ WSGI_APPLICATION = 'stanzaship.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(
+   'default': dj_database_url.config(
         default=os.environ.get('DATABASE_URL'),
         conn_max_age=600,
         conn_health_checks=True, # Recommended for Neon's serverless nature
     )
 }
+'''
+'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+'''
 
 
 # Password validation

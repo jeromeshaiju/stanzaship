@@ -1,21 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link href='https://fonts.googleapis.com/css?family=Pangolin' rel='stylesheet'>
+
 <style>
   .container {
     background-color: #ffccbc; /* Orangish Box */
-    width: 300px;
+    width: 320px;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     word-wrap: break-word; /* Text Wrap */
     text-align: center; 
   }
-  h2 { margin-top: 0; color: #d84315; }
-  p { font-style: italic; line-height: 1.5; }
+  h2 { margin-top: 0; color: #d84315;
+    font-family: 'Esteban', cursive;
+  }
+  p { font-style: italic; 
+    line-height: 1.5; 
+      font-family: 'lora', serif; 
+      font-size: 16px;
+    }
   .author { display: block; margin-top: 15px; font-weight: bold; font-size: 0.9em; }
 
 </style>
+
 </head>
 <body>
   {% include "header.html" %}
@@ -23,7 +32,7 @@
 <div class="container">
   <h2>{{stanza.title}}</h2>
   <p>
-    {{stanza.STANZA}}
+    {{stanza.STANZA|linebreaksbr }}
   </p>
   <span class="author">— {{stanza.author}}</span>
 </div>
