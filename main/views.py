@@ -4,7 +4,6 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout as auth_logout
 from django.db.models import F,Q, Max
-from matplotlib.style import context
 from pytz import timezone
 from .models import poem,Tag
 import random
