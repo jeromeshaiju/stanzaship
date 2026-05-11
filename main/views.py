@@ -1,11 +1,9 @@
 import json
 from urllib import request
-
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout as auth_logout
 from django.db.models import F,Q, Max
-from httpx import request
 from matplotlib.style import context
 from pytz import timezone
 from .models import poem,Tag
