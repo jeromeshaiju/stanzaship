@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% load socialaccount %}
+
+{% block title %}Sign Up - STANZASHIP{% endblock %}
+
+{% block content %}
+<h2>Sign Up</h2>
+
+{% if socialaccount_providers %}
+<div class="social-login mb-4">
+    <p class="text-center mb-3">Get started quickly:</p>
+    {% for provider in socialaccount_providers %}
+        {% if provider.id == "google" %}
+        <a href="{% provider_login_url provider.id %}" class="btn btn-google">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 10px;">
+                <circle cx="12" cy="12" r="1"></circle>
+                <path d="M12 1v6m0 6v6"></path>
+                <path d="M4.22 4.22l4.24 4.24m5.08 5.08l4.24 4.24"></path>
+                <path d="M1 12h6m6 0h6"></path>
+                <path d="M4.22 19.78l4.24-4.24m5.08-5.08l4.24-4.24"></path>
+            </svg>
+            Sign up with Google
+        </a>
+        {% endif %}
+    {% endfor %}
+</div>
+
+<div class="divider">
+    <span>or create an account</span>
+</div>
+{% endif %}
+
+{% if form.non_field_errors %}
+<div class="errorlist">
+    {% for error in form.non_field_errors %}
+    <li>{{ error }}</li>
+    {% endfor %}
+</div>
+{% endif %}
+
+<form method="POST" action="">
+    {% csrf_token %}
+    <label for="{{ form.email.id_for_label }}">Email</label>
+    <div class="form-group">
+        {{ form.email }}
+        {% if form.email.errors %}
+        <div class="text-danger small">
+            {% for error in form.email.errors %}{{ error }}<br>{% endfor %}
+        </div>
+        {% endif %}
+    </div>
+    <label for="{{ form.username.id_for_label }}">Username</label>
+    <div class="form-group">
+        {{ form.username }}
+        {% if form.username.errors %}
+        <div class="text-danger small">
+            {% for error in form.username.errors %}{{ error }}<br>{% endfor %}
+        </div>
+        {% endif %}
+    </div>
+    <label for="{{ form.password1.id_for_label }}">Password</label>
+    <div class="form-group">
+        {{ form.password1 }}
+        {% if form.password1.errors %}
+        <div class="text-danger small">
+            {% for error in form.password1.errors %}{{ error }}<br>{% endfor %}
+        </div>
+        {% endif %}
+        {% if form.password1.help_text %}
+        <bold class="helptext">{{ form.password1.help_text|safe }}</bold>
+        {% endif %}
+    </div>
+    <label for="{{ form.password2.id_for_label }}">Confirm Password</label>
+    <div class="form-group">
+        {{ form.password2 }}
+        {% if form.password2.errors %}
+        <div class="text-danger small">
+            {% for error in form.password2.errors %}{{ error }}<br>{% endfor %}
+        </div>
+        {% endif %}
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create Account</button>
+</form>
+
+<div class="auth-link">
+    <p>Already have an account? <a href="{% url 'account_login' %}">Sign in</a></p>
+</div>
+
+{% endblock %}
